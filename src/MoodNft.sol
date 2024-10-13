@@ -6,8 +6,8 @@ import {Base64} from "@openzeppelin/contracts/utils/Base64.sol";
 
 contract MoodNft is ERC721 {
     uint256 private s_tokenCounter;
-    string private s_happySvgImageUri;
-    string private s_sadSvgImageUri;
+    string private s_happySvg;
+    string private s_sadSvg;
 
     enum Mood {
         HAPPY,
@@ -16,13 +16,10 @@ contract MoodNft is ERC721 {
 
     mapping (uint256 => Mood) s_TokenIdToMood;
     
-    constructor() ERC721("MoodNft", "MN") {
-        string memory sadSvgImageUri;
-        string memory happySvgImageUri;
-
+    constructor(string memory sadSvg, string memory happySvg) ERC721("MoodNft", "MN") {
         s_tokenCounter = 0;
-        s_sadSvgImageUri = sadSvgImageUri;
-        s_happySvgImageUri = happySvgImageUri;
+        s_sadSvg = sadSvg;
+        s_happySvg = happySvg;
     }
         
     function mintNft() public {
@@ -38,10 +35,10 @@ contract MoodNft is ERC721 {
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
         string memory imageURI;
         if (s_TokenIdToMood[tokenId] == Mood.HAPPY) {
-            imageURI = s_happySvgImageUri;
+            imageURI = s_happySvg;
         }
         else {
-            imageURI = s_sadSvgImageUri;
+            imageURI = s_sadSvg;
         }
         return(
             string(
