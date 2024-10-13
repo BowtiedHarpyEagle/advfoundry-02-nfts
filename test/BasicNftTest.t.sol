@@ -13,4 +13,14 @@ contract BasicNftTest is Test {
         deployer = new DeployBasicNft();
         basicNft = deployer.run();
     }
+
+    function testNameIsCorrect() public view {
+        string memory expectedName = "Dogie";
+        string memory actualName = basicNft.name();
+        // in solidity we cannot compare strings directly
+        // assert(actualName == expectedName); would not compile.
+        // so we need to compare hashes of the abi-encoded strings
+        assert(keccak256(abi.encodePacked(expectedName)) == 
+            keccak256(abi.encodePacked(actualName)));
+    }
 }
